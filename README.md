@@ -23,8 +23,8 @@ particpate in the competions where the most deserving one wouls be selected as a
 
 
 ### Preview
-<img src="preview/s1.png" height="300">
-<img src="preview/s2.png" height="300">
+<img src="preview/image.png" height="300">
+<img src="preview/image.png" height="300">
 
 ### PPT
 https://github.com/Sharanya98/CH46_BRAINBYTE-1/blob/master/BrainByte_CH46_SIH2020.pdf
