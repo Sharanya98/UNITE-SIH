@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+	
+<head>
+  <meta charset="utf-8">
+  <title>UNITE</title>
+
+  <!-- Firebase Libs -->
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+  
+<!-- ajax framework -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="img/favicon.png" rel="icon">
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700|Raleway:300,400,400i,500,500i,700,800,900" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="lib/nivo-slider/css/nivo-slider.css" rel="stylesheet">
+  <link href="lib/owlcarousel/owl.carousel.css" rel="stylesheet">
+  <link href="lib/owlcarousel/owl.transitions.css" rel="stylesheet">
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <link href="lib/venobox/venobox.css" rel="stylesheet">
+
+  <!-- Nivo Slider Theme -->
+  <link href="css/nivo-slider-theme.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
+<!-- ICONS -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <!-- Responsive Stylesheet File -->
+  <link href="css/responsive.css" rel="stylesheet">
+
+ 
+</head>
+
+<body data-spy="scroll" data-target="#navbar-example">
+
+
+<div id="preloader"></div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">SignIn Options</h4>
+        </div>
+        <div class="modal-body" id="Signin_Body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+  <!-- Firebase initializeApp -->
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyB7eMSgIpE1odDzDaoWtpkLig7G1iEHvMk",
+      authDomain: "unites-d8943.firebaseapp.com",
+      databaseURL: "https://unites-d8943.firebaseio.com",
+      projectId: "unites-d8943",
+      storageBucket: "unites-d8943.appspot.com",
+      messagingSenderId: "360054808163"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+
+
+
+
+<script>
+ // FirebaseUI config.
+ var uiConfig = {
+      signInSuccessUrl: 'ht_register.php',
+      signInOptions: [
+        // Leave the lines as is for the providers you want to offer your users.
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.PhoneAuthProvider.PROVIDER_ID
+      ],
+      // tosUrl and privacyPolicyUrl accept either url string or a callback
+      // function.
+      // Terms of service url/callback.
+      tosUrl: '<your-tos-url>',
+      // Privacy policy url/callback.
+      privacyPolicyUrl: function() {
+        window.location.assign('<your-privacy-policy-url>');
+      }
+    };
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    // The start method will wait until the DOM is loaded.
+    ui.start('#Signin_Body', uiConfig);
+function SigninView(){
+  $("#myModal").modal();
+}
+
+$(document).ready(function() { 
+    var news_req = $.get("https://newsapi.org/v2/everything",{q:"Startup",sortBy:"publishedAt", apiKey: "127a46f7373846c59ee34076661fa3a4"});
+    news_req.done(function(news_data){
+      var i = 0;
+      for(i=0; i<3;i++){
+        var news_element = '<div class="col-md-4 col-sm-4 col-xs-12"><div class="single-blog"> <div class="single-blog-img">  <img id="news_img_src'+i+'" src="img/blog/1.jpg" alt="">        </div>     <div class="blog-meta">     <span class="comments-type">     <i class="fa fa-comment-o"></i>  <a href="#" id="news_by'+i+'">13 comments</a>  </span> <span class="date-type" id="news_date'+i+'">     <i class="fa fa-calendar"></i>2016-03-05 / 09:10:16    </span>   </div>  <div class="blog-text"><h4>   <a href="#" id="news_title'+i+'">Assumenda repud eum veniam</a>          </h4>       <p id="news_desc'+i+'">  Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi sit explicabo nisi magnam quibusdam.sit amet conse adipis elit Assumenda repud eum veniam optio modi sit explicabo nisi magnam quibusdam.       </p>     </div>   <span> <a id="news_link'+i+'" class="ready-btn">Read more</a>        </span>   </div>  <!-- Start single blog -->  </div>';
+        document.getElementById("news_div").innerHTML += news_element;
+        
+        document.getElementById("news_title"+i).innerText = news_data.articles[i].title;
+        document.getElementById("news_desc"+i).innerText = news_data.articles[i].description;
+        document.getElementById("news_by"+i).innerText = news_data.articles[i].author;
+        document.getElementById("news_date"+i).innerText = news_data.articles[i].publishedAt;
+        document.getElementById("news_img_src"+i).src = news_data.articles[i].urlToImage;
+        document.getElementById("news_link"+i).href = news_data.articles[i].url;
+      
+      }
+
+
+		var msg = new SpeechSynthesisUtterance('Hello World');
+window.speechSynthesis.speak(msg);	
+
+    });
+});
+
+</script>
+
+  <header>
+    <!-- header-area start -->
+    <div id="sticker" class="header-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-default">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-example-navbar-collapse-1" aria-expanded="false">
+										<span class="sr-only">Toggle navigation</span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+									</button>
+                <!-- Brand -->
+                <a class="navbar-brand page-scroll sticky-logo" href="index.html">
+                  <h1><span>U</span>nite</h1>
+                  <!-- Uncomment below if you prefer to use an image logo -->
+                  <!-- <img src="img/logo.png" alt="" title=""> -->
+								</a>
+              </div>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1" id="navbar-example">
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="active">
+                    <a class="page-scroll" href="#home">Home</a>
+                  </li>
+                  <li>
+                    <a class="page-scroll" href="#about">Features</a>
+                  </li>
+                   <li>
+                    <a class="page-scroll" href="#faq">FAQ</a>
+                  </li>
+                  <li>
+                    <a class="page-scroll" href="#blog">News</a>
+                  </li>
+                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Language<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="languages/hn/index_hn.html" >Hindi</a></li>
+                      <li><a href="languages/mr/index_mr.html" >Marathi</a></li>
+                      <li><a href="languages/gu/index_gu.html">Gujrathi</a></li>
+                      <li><a href="languages/be/index_be.html">Bengali</a></li>
+                      <li><a href="languages/tam/index_tam.html">Tamil</a></li>
+                      <li><a href="languages/tel/index_tel.html">Telgu</a></li>
+                       
+                      <li><a href="language/kn/index_kn.html">Kannada</a></li>
+                    </ul> 
+                  </li>
+                  
+                  <li>
+                    <a class="page-scroll" href="#portfolio">Team</a>
+                  </li>
+                 
+                </ul>
+              </div>
+              <!-- navbar-collapse -->
+            </nav>
+            <!-- END: Navigation -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- header-area end -->
+  </header>
+  <!-- header end -->
+
+  <!-- Start Slider Area -->
+  <div id="home" class="slider-area">
+    <div class="bend niceties preview-2">
+      <div id="ensign-nivoslider" class="slides">
+        <img src="img/slider/first.jpg" alt="" title="#slider-direction-1" />
+        <img src="img/slider/agri.jpg" alt="" title="#slider-direction-2" />
+        <img src="img/slider/meet2.jpg" alt="" title="#slider-direction-3" />
+      </div>
+
+      <!-- direction 1 -->
+      <div id="slider-direction-1" class="slider-direction slider-one">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="slider-content">
+                <!-- layer 1 -->
+                <!-- <div class="layer-1-1 hidden-xs wow slideInDown" data-wow-duration="2s" data-wow-delay=".2s"> -->
+                  <!-- <h2 class="title1">The Best Business Information </h2> -->
+                <!-- </div> -->
+                <!-- layer 2 -->
+                <div class="layer-1-2 wow slideInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                  <h1 class="title2">One Stop Destination for Startup and Corporate To Connect</h1>
+                </div>
+                <!-- layer 3 -->
+               <!-- layer 3 -->
+               <div class="layer-1-3 hidden-xs wow slideInUp" data-wow-duration="2s" data-wow-delay=".2s">
+
+
+
+
+                  <a class="ready-btn right-btn page-scroll" onclick="SigninView()">GET STARTED</a>
+
+
+
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- direction 2 -->
+      <div id="slider-direction-2" class="slider-direction slider-two">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="slider-content text-center">
+                <!-- layer 1 -->
+                <!-- <div class="layer-1-1 hidden-xs wow slideInUp" data-wow-duration="2s" data-wow-delay=".2s"> -->
+                  <!-- <h2 class="title1">The Best Business Information </h2> -->
+                <!-- </div> -->
+                <!-- layer 2 -->
+                <div class="layer-1-2 wow slideInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                  <h1 class="title2">Helping Rural Community To Innovate,Discover And Present Ideas</h1>
+                </div>
+                <!-- layer 3 -->
+                <div class="layer-1-3 hidden-xs wow slideInUp" data-wow-duration="2s" data-wow-delay=".2s">
+
+
+
+
+                    <a class="ready-btn right-btn page-scroll" onclick="SigninView()">GET STARTED</a>
+  
+  
+  
+                  
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- direction 3 -->
+      <div id="slider-direction-3" class="slider-direction slider-two">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="slider-content">
+                <!-- layer 1 -->
+                <!--  <div class="layer-1-1 hidden-xs wow slideInUp" data-wow-duration="2s" data-wow-delay=".2s">
+                  <h2 class="title1">The Best business Information </h2>
+                </div>-->
+                <!-- layer 2 -->
+                <div class="layer-1-2 wow slideInUp" data-wow-duration="2s" data-wow-delay=".1s">
+                  <h1 class="title2">Best Platform For Startup And Corporate Match-Up</h1>
+                </div>
+                <!-- layer 3 -->
+                <div class="layer-1-3 hidden-xs wow slideInUp" data-wow-duration="2s" data-wow-delay=".2s">
+
+
+
+
+                  <a class="ready-btn right-btn page-scroll" onclick="SigninView()">GET STARTED</a>
+
+
+
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Slider Area -->
+
+
+
+
+
+
+
+  <!-- Start About area -->
+  <div id="about" class="about-area area-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="section-headline services-head text-center">
+            <h2>FEATURES</h2>
+          </div>
+        </div>
+      </div>
+     
+      <div class="row text-center">
+        <div class="services-contents">
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="about-move">
+              <div class="services-details">
+                <div class="single-services">
+                  <a class="services-icon" href="#">
+											<i class="fa fa-code"></i>
+										</a>
+                  <h4>COMPETE</h4>
+                  <p>
+                    Grab an opportunity to compete against the other start-ups 
+                    and grab position on unites.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end about-details -->
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="about-move">
+              <div class="services-details">
+                <div class="single-services">
+                  <a class="services-icon" href="#">
+											<i class="fas fa-award"></i>
+										</a><h4>WIN</h4>
+                  <p>
+                    Win a chance to be get interned by the corporate. </p>
+                </div>
+              </div>
+              <!-- end about-details -->
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <!-- end col-md-4 -->
+            <div class=" about-move">
+              <div class="services-details">
+                <div class="single-services">
+                  <a class="services-icon" href="#">
+											<i class="fas fa-rupee-sign"></i>
+										</a>
+                  <h4>GET FUNDED</h4>
+                  <p>
+                    Present Your Innovative Idea And Get Funded.  </p>
+                </div>
+              </div>
+              <!-- end about-details -->
+            </div>
+          </div>
+          </div>
+          </div>
+          <div class="row text-center">
+        <div class="services-contents">
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <!-- end col-md-4 -->
+            <div class=" about-move">
+              <div class="services-details">
+                <div class="single-services">
+                  <a class="services-icon" href="#">
+                      <i class="far fa-lightbulb"></i>
+                    </a>
+                  <h4>SHARE YOUR IDEA</h4>
+                  <p>
+                    Rural community can publish your ideas
+                    Through audio/video.  </p>
+                </div>
+              </div>
+              <!-- end about-details -->
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <!-- end col-md-4 -->
+            <div class=" about-move">
+              <div class="services-details">
+                <div class="single-services">
+                  <a class="services-icon" href="#">
+                      <i class="fas fa-search"></i>
+                    </a>
+                  <h4>DISCOVER MATCH</h4>
+                  <p>
+                    Start-ups can find their best corporate matches for the betterment     </p>
+                </div>
+              </div>
+              <!-- end about-details -->
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <!-- end col-md-4 -->
+            <div class=" about-move">
+              <div class="services-details">
+                <div class="single-services">
+                  <a class="services-icon" href="#">
+                      <i class="fas fa-user-circle"></i>
+                    </a>
+                  <h4>SHOW PROFILE</h4>
+                  <p>
+                    Corporate can create their effective profiles for others 
+                    to have an impact </p>
+                </div>
+              </div>
+              <!-- end about-details -->
+            </div>
+          </div>
+          </div>
+          </div>
+    </div>
+    
+    </div>
+    
+
+    
+
+
+
+
+
+    <!-- FAQ Area -->
+  <div class="faq-area area-padding" id="faq">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="scrollup">
+            <h2>Faq Question</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="faq-details">
+            <div class="panel-group" id="accordion">
+              <!-- Panel Default -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="check-title">
+											<a data-toggle="collapse" class="active" data-parent="#accordion" href="#check1">
+                                                <span class="acc-icons"></span>Why UNITE?
+											</a>
+										</h4>
+                </div>
+                <div id="check1" class="panel-collapse collapse in">
+                  <div class="panel-body">  
+                    <p>
+                     We believe in the added value of strengthening ,connecting and growing the thriving start up ecosystem with our unique connection to all the layers of corporation and main innovation Hubs we aim to merge start up ecosystem into single connected hub.We breakdown the barriers and improve access to talent ,capital, network ,knowledge and market.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- End Panel Default -->
+              <!-- Panel Default -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="check-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#check2">
+                                                <span class="acc-icons"></span> What can I do as a Startup?
+											</a>
+										</h4>
+                </div>
+                <div id="check2" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <p>
+                      since the main focus of startup is to get funded by corporation for their innovative ideas therefore start ups can </p>
+                      <ul class="point">
+                        <li>● Submit ideas to the corporate</li>
+                        <li>● Compete in the challenges and get funded by corporate</li>
+                        <li>● Attend events conducted by corporates</li>
+                        <li>● Find their best possible match with the corporates for collaborations</li>
+  
+                   </ul>
+                    
+                  </div>
+                </div>
+              </div>
+              <!-- End Panel Default -->
+              <!-- Panel Default -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="check-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#check3">
+                                                <span class="acc-icons"></span>What can I do as a corporate?
+											</a>
+										</h4>
+                </div>
+                <div id="check3" class="panel-collapse collapse ">
+                  <div class="panel-body">
+                    <p>Since the main focus of the corporate is to get innovative ideas from the startup therefore corporate can </p>
+                      <ul class="point">
+                        <li>● Accept ideas from the startups</li>
+                        <li>● Create contest for the startups to participate in</li>
+                        <li>● Create events for the startups to attend</li>
+                        <li>● Find the best possible match with the startups for collaborations</li>
+  
+                   </ul>
+                   
+
+                  </div>
+                </div>
+              </div>
+              <!-- End Panel Default -->
+              <!-- Panel Default -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="check-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#check4">
+                                                <span class="acc-icons"></span>As a startup how can I publish my ideas?
+											</a>
+										</h4>
+                </div>
+                <div id="check4" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <p>
+                      Click on the <strong>eureka!</strong> option in your profile and submit your ideas. people can view and upvote your ideas.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- End Panel Default -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="tab-menu">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="active">
+                <a href="#p-view-1" role="tab" data-toggle="tab">Our Vision</a>
+              </li>
+              <li>
+                <a href="#p-view-2" role="tab" data-toggle="tab">Our Mission</a>
+              </li>
+              <li>
+                <a href="#p-view-3" role="tab" data-toggle="tab">Plan Of Action</a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="p-view-1">
+              <div class="tab-inner">
+                <div class="event-content head-team">
+                  <h4>Our Vision</h4>
+                  <p>
+                    We believe in the added value of strengthening connecting and growing the thriving startup ecosystem.UNITE is the best possible place for starting ,growing and internationalizing business.
+                  </p>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="p-view-2">
+              <div class="tab-inner">
+                <div class="event-content head-team">
+                  <h4>Our Mission</h4>
+                  <p>
+                   With our unique connection to all the layers of government organisations, corporations and innovation hubs we aimm to merge the startup ecosystem into a single connected hub breaking the barriers and improving access to capital ,network ,knowledge and markets
+                  
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="p-view-3">
+              <div class="tab-inner">
+                <div class="event-content head-team">
+                  <h4>Plan of Action</h4>
+                  <p>
+                    At Unite, we aim at assisting the users through everything right from creation of profile to finding the best possible match for your organisation. Additional features like contests ,events and news have also been added for convenience of the user.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end Row -->
+    </div>
+  </div>
+  <!-- End of FAQ Area -->
+
+
+
+ 
+
+
+  <div id="blog" class="blog-area">
+    <div class="blog-inner area-padding">
+      <div class="blog-overly"></div>
+      <div class="container ">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="section-headline text-center">
+              <h2>Latest News</h2>
+            </div>
+          </div>
+        </div>
+              <div class="row" id="news_div">
+              </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start portfolio Area -->
+  <div id="portfolio" class="portfolio-area area-padding fix">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="section-headline text-center">
+            <h2>TEAM</h2>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="row">
+       
+      
+        <div class="awesome-project-content">
+          <!-- single-awesome-project start -->
+          <div class="col-md-4 col-sm-4 col-xs-12 design development">
+            <div class="single-awesome-project">
+              <div class="awesome-img">
+                <a href="#"><img style="width:340px; height:340px" src="img/portfolio/chaitanya.png" alt="" /></a>
+                <div class="add-actions text-center">
+                  <div class="project-dec">
+                    <a class="venobox" data-gall="myGallery" href="img/portfolio/chaitanya.png">
+                      <h4>Chaitanya Deshpande</h4>
+                      
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+ <!-- single-awesome-project end -->
+          <!-- single-awesome-project start -->
+          <div class="col-md-4 col-sm-4 col-xs-12 design">
+            <div class="single-awesome-project">
+              <div class="awesome-img">
+                <a href="#"><img style="width:340px; height:340px" src="img/portfolio/macc.jpg" alt="" /></a>
+                <div class="add-actions text-center">
+                  <div class="project-dec">
+                    <a class="venobox" data-gall="myGallery" href="img/portfolio/macc.jpg">
+                      <h4>Sharanya Bhongade</h4>
+                      
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- single-awesome-project end -->
+          <!-- single-awesome-project start -->
+          <div class="col-md-4 col-sm-4 col-xs-12 photo">
+            <div class="single-awesome-project">
+              <div class="awesome-img">
+                <a href="#"><img style="width:340px; height:340px" src="img/portfolio/yash5.jpeg" alt="" /></a>
+                <div class="add-actions text-center">
+                  <div class="project-dec">
+                    <a class="venobox" data-gall="myGallery" href="img/portfolio/yash5.jpeg">
+                      <h4>Yashada Gotmare</h4>
+                     
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+          <!-- single-awesome-project end -->
+          <!-- single-awesome-project start -->
+          <div class="col-md-4 col-sm-4 col-xs-12 photo development">
+            <div class="single-awesome-project">
+              <div class="awesome-img">
+                <a href="#"><img style="width:340px; height:340px" src="img/portfolio/akshay.jpg" alt="" /></a>
+                <div class="add-actions text-center">
+                  <div class="project-dec">
+                    <a class="venobox" data-gall="myGallery" href="img/portfolio/akshay.jpg">
+                      <h4>Akshay Singh Thakur</h4>
+                     
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single-awesome-project end -->
+          <!-- single-awesome-project start -->
+          <div class="col-md-4 col-sm-4 col-xs-12 development">
+            <div class="single-awesome-project">
+              <div class="awesome-img">
+                <a href="#"><img style="width:340px; height:340px" src="img/portfolio/samcmp.jpg" alt="" /></a>
+                <div class="add-actions text-center text-center">
+                  <div class="project-dec">
+                    <a class="venobox" data-gall="myGallery" href="img/portfolio/samcmp.jpg">
+                      <h4>Samanta Kale</h4>
+                      
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single-awesome-project end -->
+          <!-- single-awesome-project start -->
+          <div class="col-md-4 col-sm-4 col-xs-12 design photo">
+            <div class="single-awesome-project">
+              <div class="awesome-img">
+                <a href="#"><img style="width:340px; height:340px" src="img/portfolio/shivani.jpg" alt="" /></a>
+                <div class="add-actions text-center">
+                  <div class="project-dec">
+                    <a class="venobox" data-gall="myGallery" href="img/portfolio/shivani.jpg">
+                      <h4>Shivani Sangamnerkar</h4>
+                     
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single-awesome-project end -->
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+ 
+
+<!--footer area-->
+    <div class="footer-area-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="copyright text-center">
+              <p>
+                &copy; Copyright <strong>Int Elligence</strong>. All Rights Reserved
+              </p>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="lib/venobox/venobox.min.js"></script>
+  <script src="lib/knob/jquery.knob.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="lib/parallax/parallax.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/nivo-slider/js/jquery.nivo.slider.js" type="text/javascript"></script>
+  <script src="lib/appear/jquery.appear.js"></script>
+  <script src="lib/isotope/isotope.pkgd.min.js"></script>
+
+  <!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
