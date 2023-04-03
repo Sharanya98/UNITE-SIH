@@ -27,4 +27,4 @@ particpate in the competions where the most deserving one wouls be selected as a
 <img src="preview/ss4.png" height="300">
 
 ### PPT
-https://github.com/Sharanya98/CH46_BRAINBYTE-1/blob/master/BrainByte_CH46_SIH2020.pdf
+https://github.com/Sharanya98/UNITE-SIH/blob/main/mayorinnovation2019.pdf
